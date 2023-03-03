@@ -27,10 +27,13 @@ const loginUser = async (req, res) => {
 
 //Signup user
 const signupUser = async (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.header("Access-Control-Allow-Headers", "x-access-token, Origin, X-Requested-With, Content-Type, Accept");
     const { username,email, password,cpassword } = req.body
 
     try {
-        const user = await User.signup(username,email, password,cpassword)
+        const user = await User.create({username,email, password,cpassword})
         const token = createToken(user._id)
 
         res.status(200).json({ email, token })
